@@ -35,6 +35,7 @@ class PlanAntiShip(PackagePlanningTask[NavalGroundObject]):
                 >= state.context.coalition.doctrine.antiship_capital_ship_packages
             ):
                 state.eliminate_ship(self.target)
+                self.capital_ship_packages.pop(self.target.name)
         else:
             state.eliminate_ship(self.target)
 
