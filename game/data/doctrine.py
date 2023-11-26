@@ -77,6 +77,9 @@ class Doctrine:
 
     sweep_distance: Distance
 
+    # The number of packages planned against a capital ship
+    antiship_capital_ship_packages: int
+
     ground_unit_procurement_ratios: GroundUnitProcurementRatios
 
 
@@ -105,6 +108,7 @@ MODERN_DOCTRINE = Doctrine(
     cap_engagement_range=nautical_miles(50),
     cas_duration=timedelta(minutes=30),
     sweep_distance=nautical_miles(60),
+    antiship_capital_ship_packages=2,
     ground_unit_procurement_ratios=GroundUnitProcurementRatios(
         {
             UnitClass.TANK: 3,
@@ -143,6 +147,7 @@ COLDWAR_DOCTRINE = Doctrine(
     cap_engagement_range=nautical_miles(35),
     cas_duration=timedelta(minutes=30),
     sweep_distance=nautical_miles(40),
+    antiship_capital_ship_packages=2,
     ground_unit_procurement_ratios=GroundUnitProcurementRatios(
         {
             UnitClass.TANK: 4,
@@ -181,6 +186,7 @@ WWII_DOCTRINE = Doctrine(
     cap_engagement_range=nautical_miles(20),
     cas_duration=timedelta(minutes=30),
     sweep_distance=nautical_miles(10),
+    antiship_capital_ship_packages=1,
     ground_unit_procurement_ratios=GroundUnitProcurementRatios(
         {
             UnitClass.TANK: 3,

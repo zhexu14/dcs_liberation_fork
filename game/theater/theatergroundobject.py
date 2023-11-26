@@ -357,10 +357,18 @@ class NavalGroundObject(TheaterGroundObject, ABC):
     def purchasable(self) -> bool:
         return False
 
+    @property
+    def is_capital_ship(self) -> bool:
+        return False
+
 
 class GenericCarrierGroundObject(NavalGroundObject, ABC):
     @property
     def is_control_point(self) -> bool:
+        return True
+    
+    @property
+    def is_capital_ship(self) -> bool:
         return True
 
 
