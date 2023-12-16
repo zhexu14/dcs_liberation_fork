@@ -167,7 +167,7 @@ class Doctrine:
                     ),
                     cas_duration=timedelta(minutes=data["cas_duration_minutes"]),
                     sweep_distance=nautical_miles(data["sweep_distance_nm"]),
-                    antiship_capital_ship_packages=data["antiship_capital_ship_packages"]
+                    antiship_capital_ship_packages=data["antiship_capital_ship_packages"],
                     ground_unit_procurement_ratios=GroundUnitProcurementRatios.from_dict(
                         data["ground_unit_procurement_ratios"]
                     ),
