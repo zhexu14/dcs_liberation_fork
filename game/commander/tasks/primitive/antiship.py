@@ -15,6 +15,10 @@ from typing import Dict
 
 
 class PlanAntiShip(PackagePlanningTask[NavalGroundObject]):
+    # Tracks capital ship targets and the number of flights assign to each target.
+    # Larger ships (CVN, LHA) require multiple 4-ship flights firing multiple missiles
+    # to have a good chance of being destroyed. There is no point in damaging the target
+    # only as we do not track damage across turns.
     capital_ship_packages: Dict[str, int] = {}
 
     def preconditions_met(self, state: TheaterState) -> bool:
@@ -41,6 +45,9 @@ class PlanAntiShip(PackagePlanningTask[NavalGroundObject]):
 
     def propose_flights(self) -> None:
         flight_size = 2
+        # When attacking capital ships, use larger flight size to increase likelihood the target will be killed
+        # rather than being damaged. There is no point in only damaging the target as we do not track damage
+        # across turns. Four is the largest flight size that can be set.
         if self.target.is_capital_ship:
             flight_size = 4
         self.propose_flight(FlightType.ANTISHIP, flight_size)
