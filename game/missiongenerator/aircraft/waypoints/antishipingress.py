@@ -32,6 +32,8 @@ class AntiShipIngressBuilder(PydcsWaypointBuilder):
 
         expend = Expend.Auto
         if isinstance(target, NavalGroundObject) and target.is_capital_ship:
+            # For capital ships, do not try to expend munitions one by one.
+            # Instead, expend all and RTB for best chances of survival.
             expend = Expend.All
 
         for group_name in group_names:

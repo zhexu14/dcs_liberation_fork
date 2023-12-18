@@ -5,11 +5,7 @@ from dataclasses import dataclass
 from game.commander.missionproposals import EscortType
 from game.commander.tasks.packageplanningtask import PackagePlanningTask
 from game.commander.theaterstate import TheaterState
-from game.theater.theatergroundobject import (
-    NavalGroundObject,
-    LhaGroundObject,
-    CarrierGroundObject,
-)
+from game.theater.theatergroundobject import NavalGroundObject
 from game.ato.flighttype import FlightType
 from typing import Dict
 
