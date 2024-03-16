@@ -19,6 +19,7 @@ manufacturer: Boeing
 origin: USA
 price: 20
 role: Attack
+cruise_speed_kt_indicated: 120
 variants:
   AH-64D Apache Longbow: {}
 radios:
@@ -39,3 +40,4 @@ tasks:
   CAS: 510
   DEAD: 115
   OCA/Aircraft: 510
+hit_points: 20

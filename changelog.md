@@ -1,15 +1,32 @@
+# 11.0.0
+
+Saves from 10.x are not compatible with 11.0.0.
+
+## Features/Improvements
+
+* **[Engine]** Support for DCS 2.9.3.51704. 
+* **[Campaign]** Improved tracking of parked aircraft deaths. Parked aircraft are now considered dead once sufficient damage is done, meaning guns, rockets and AGMs are viable weapons for OCA/Aircraft missions. Previously Liberation relied on DCS death tracking which required parked aircraft to be hit with more powerful weapons e.g. 2000lb bombs as they were uncontrolled.
+* **[Campaign]** Track damage to theater ground objects across turns. Damage can accumulate across turns leading to death of the unit. This behavior only applies to SAMs, ships and other units that appear on the Liberation map. Frontline units and buildings are not tracked (yet).
+
+## Fixes
+
+* **[Mission Generation]** When planning anti-ship missions against carriers or LHAs, target escorts (if present) if the carrier/LHA is sunk.
+* **[UI]** Identify that a carrier or LHA is sunk instead of "damaged".
+
 # 10.0.0
 
 Saves from 9.x are not compatible with 10.0.0.
 
 ## Features/Improvements
 
-* **[Engine]** Support for DCS 2.9.1.48111 Open Beta (F-15E JDAM, updated Falklands and Normandy airfields).
+* **[Engine]** Support for DCS 2.9.2.49629 Open Beta. (F-15E JDAM and JSOW, F-16 AIM-9P, updated Falklands and Normandy airfields).
+* **[UI]** Improved the description of "runway" state for FARPs, FOBs, carriers, and off-map spawns.
 
 ## Fixes
 
 * **[Flight Planning]** Aircraft from even numbered flights will no longer become inaccessible when canceling a draft package.
 * **[UI]** Flight members in the loadout menu are now numbered starting from 1 instead of 0.
+* **[UI]** Flight plan paths are now drawn behind all other map elements, fixing rare cases where they could prevent other UI elements from being clickable.
 
 # 9.0.0
 

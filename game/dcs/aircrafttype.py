@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 from collections import defaultdict
-from dataclasses import dataclass
+from dataclasses import dataclass, replace as dataclasses_replace
 from functools import cache, cached_property
 from pathlib import Path
 from typing import Any, ClassVar, Dict, Iterator, Optional, TYPE_CHECKING, Type
@@ -181,6 +181,9 @@ class AircraftType(UnitType[Type[FlyingType]]):
     #: The maximum range between the origin airfield and the target for which the auto-
     #: planner will consider this aircraft usable for a mission.
     max_mission_range: Distance
+
+    #: Speed used for TOT calculations
+    cruise_speed: Optional[Speed]
 
     fuel_consumption: Optional[FuelConsumption]
 
@@ -400,6 +403,12 @@ class AircraftType(UnitType[Type[FlyingType]]):
             for k in config:
                 if k in aircraft.property_defaults:
                     aircraft.property_defaults[k] = config[k]
+                    # In addition to setting the property_defaults, we have to set the "default" property in the
+                    # value of aircraft.properties for the key, as this is used in parts of the codebase to get
+                    # the default value.
+                    aircraft.properties[k] = dataclasses_replace(
+                        aircraft.properties[k], default=config[k]
+                    )
                 else:
                     logging.warning(
                         f"'{aircraft.id}' attempted to set default prop '{k}' that does not exist"
@@ -489,6 +498,9 @@ class AircraftType(UnitType[Type[FlyingType]]):
             patrol_altitude=patrol_config.altitude,
             patrol_speed=patrol_config.speed,
             max_mission_range=mission_range,
+            cruise_speed=knots(data["cruise_speed_kt_indicated"])
+            if "cruise_speed_kt_indicated" in data
+            else None,
             fuel_consumption=fuel_consumption,
             default_livery=data.get("default_livery"),
             intra_flight_radio=radio_config.intra_flight,
@@ -505,6 +517,7 @@ class AircraftType(UnitType[Type[FlyingType]]):
                 LaserCodeConfig.from_yaml(d) for d in data.get("laser_codes", [])
             ],
             use_f15e_waypoint_names=data.get("use_f15e_waypoint_names", False),
+            hit_points=data.get("hit_points", 1),
         )
 
     def __hash__(self) -> int:
