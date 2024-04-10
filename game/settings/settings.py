@@ -8,6 +8,7 @@ from typing import Any, Optional, get_type_hints
 
 import yaml
 from dcs.forcedoptions import ForcedOptions
+from dcs.task import TargetType, Targets
 
 from .booleanoption import boolean_option
 from .boundedfloatoption import bounded_float_option
@@ -39,6 +40,7 @@ CAMPAIGN_MANAGEMENT_PAGE = "Campaign Management"
 GENERAL_SECTION = "General"
 PILOTS_AND_SQUADRONS_SECTION = "Pilots and Squadrons"
 HQ_AUTOMATION_SECTION = "HQ Automation"
+RADIO_SECTION = "Radio"
 
 MISSION_GENERATOR_PAGE = "Mission Generator"
 
@@ -443,6 +445,20 @@ class Settings:
         default=timedelta(minutes=60),
         min=30,
         max=150,
+    )
+
+    # Radio
+    radio_ai_no_report_waypoint_pass: bool = boolean_option(
+        "Disable AI radio reports on passing waypoints",
+        page=MISSION_GENERATOR_PAGE,
+        section=RADIO_SECTION,
+        default=True,
+    )
+    radio_ai_silent: bool = boolean_option(
+        "Radio silence for AI units (reduces AI radio calls)",
+        page=MISSION_GENERATOR_PAGE,
+        section=RADIO_SECTION,
+        default=True,
     )
 
     # Performance

@@ -8,7 +8,15 @@ from dcs import Mission
 from dcs.action import AITaskPush, ActivateGroup
 from dcs.condition import CoalitionHasAirdrome, TimeAfter
 from dcs.planes import AJS37
-from dcs.task import StartCommand
+from dcs.point import MovingPoint
+from dcs.task import (
+    StartCommand,
+    OptNoReportWaypointPass,
+    OptRadioUsageContact,
+    OptRadioUsageEngage,
+    OptRadioUsageKill,
+    OptRadioSilence,
+)
 from dcs.triggers import Event, TriggerOnce, TriggerRule
 from dcs.unitgroup import FlyingGroup
 
@@ -81,6 +89,7 @@ class WaypointGenerator:
                     # mission aircraft starting at a waypoint with tasks behave
                     # correctly.
                     self.builder_for_waypoint(point, 1).add_tasks(self.group.points[0])
+                    self._set_ai_radio_options(self.group.points[0])
                 if not self.flight.state.has_passed_waypoint(point):
                     filtered_points.append(point)
             else:
@@ -114,6 +123,7 @@ class WaypointGenerator:
             # 1) pydcs seems to decrement the index by 1 and
             # 2) DCS starts the first waypoint at index 1 as 0 is the starting position
             self.builder_for_waypoint(point, idx + 2).build()
+            self._set_ai_radio_options(self.group.points[-1])
 
         # Set here rather than when the FlightData is created so they waypoints
         # have their TOTs and fuel minimums set. Once we're more confident in our fuel
@@ -159,6 +169,12 @@ class WaypointGenerator:
             self.unit_map,
             generated_waypoint_index,
         )
+
+    def _set_ai_radio_options(self, point: MovingPoint) -> None:
+        if self.settings.radio_ai_no_report_waypoint_pass:
+            point.tasks.append(OptNoReportWaypointPass(True))
+        if self.settings.radio_ai_silent:
+            point.tasks.append(OptRadioSilence(True))
 
     def _estimate_min_fuel_for(self, waypoints: list[FlightWaypoint]) -> None:
         if self.flight.unit_type.fuel_consumption is None:
