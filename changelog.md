@@ -4,6 +4,8 @@ Saves from 11.x are not compatible with 12.0.0.
 
 ## Features/Improvements
 
+* **[Mission Generation]** Added settings to reduce AI radio calls under Settings > Mission Generator > Radio.
+
 ## Fixes
 
 * **[Campaign]** Removed deprecated settings for generating persistent and invulnerable AWACs and tankers.
