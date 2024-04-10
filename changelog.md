@@ -6,6 +6,8 @@ Saves from 11.x are not compatible with 12.0.0.
 
 ## Fixes
 
+* **[Campaign]** Removed deprecated settings for generating persistent and invulnerable AWACs and tankers.
+
 # 11.0.0
 
 Saves from 10.x are not compatible with 11.0.0.
