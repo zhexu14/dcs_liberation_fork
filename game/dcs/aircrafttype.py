@@ -34,6 +34,7 @@ from game.radio.channels import (
     ViggenRadioChannelAllocator,
     ViperChannelNamer,
     WarthogChannelNamer,
+    PhantomChannelNamer,
 )
 from game.utils import (
     Distance,
@@ -110,6 +111,7 @@ class RadioConfig:
             "apache": ApacheChannelNamer,
             "a10c-legacy": LegacyWarthogChannelNamer,
             "a10c-ii": WarthogChannelNamer,
+            "phantom": PhantomChannelNamer,
         }[config.get("namer", "default")]
 
 
@@ -498,9 +500,11 @@ class AircraftType(UnitType[Type[FlyingType]]):
             patrol_altitude=patrol_config.altitude,
             patrol_speed=patrol_config.speed,
             max_mission_range=mission_range,
-            cruise_speed=knots(data["cruise_speed_kt_indicated"])
-            if "cruise_speed_kt_indicated" in data
-            else None,
+            cruise_speed=(
+                knots(data["cruise_speed_kt_indicated"])
+                if "cruise_speed_kt_indicated" in data
+                else None
+            ),
             fuel_consumption=fuel_consumption,
             default_livery=data.get("default_livery"),
             intra_flight_radio=radio_config.intra_flight,
