@@ -4,6 +4,7 @@ Saves from 11.x are not compatible with 12.0.0.
 
 ## Features/Improvements
 
+* **[Campaign]** Removed deprecated settings for generating persistent and invulnerable AWACs and tankers.
 * **[Mods]** F/A-18 E/F/G Super Hornet mod version updated to 2.3.
 
 ## Fixes
