@@ -1,0 +1,12 @@
+{
+    "nameInUI": "Wingman",
+    "defaultValue": false,
+    "specificOptions": [],
+    "scriptsWorkOrders": [
+        {
+            "file": "wingman.lua",
+            "mnemonic": "wingman"
+        }
+    ],
+    "configurationWorkOrders": []
+}
