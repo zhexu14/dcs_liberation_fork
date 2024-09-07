@@ -78,6 +78,6 @@ end
 
 
 local args = {}
-args['range'] = 1000000
+args['range'] = 5000
 args['delay'] = 30
 timer.scheduleFunction(run, args, timer.getTime() + 1)
