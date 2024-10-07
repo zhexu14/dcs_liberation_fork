@@ -270,7 +270,7 @@ class QTopPanel(QFrame):
         if not self.check_valid_autoresolve_settings():
             return
 
-        if self.game.settings.fast_forward_stop_condition == FastForwardStopCondition.FIRST_CONTACT:
+        if self.game.settings.fast_forward_stop_condition != FastForwardStopCondition.DISABLED:
             with logged_duration("Simulating to first contact"):
                 self.sim_controller.run_to_first_contact()
         self.sim_controller.generate_miz(
