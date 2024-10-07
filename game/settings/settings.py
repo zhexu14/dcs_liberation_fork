@@ -356,7 +356,7 @@ class Settings:
         ),
     )
     fast_forward_stop_condition: FastForwardStopCondition = choices_option(
-        "Fast forward until (WIP)",
+        "Fast forward until",
         page=MISSION_GENERATOR_PAGE,
         section=GAMEPLAY_SECTION,
         default=FastForwardStopCondition.DISABLED,
@@ -369,30 +369,30 @@ class Settings:
             "Manual": FastForwardStopCondition.MANUAL,
         },
         detail=(
-            "Determines when fast forwarding stops. Options are: "
-            "No fast forward: no fast forwarding. "
+            "Determines when fast forwarding stops: "
+            "No fast forward: disables fast forward. "
             "Player startup time: fast forward until player startup time. "
             "Player taxi time: fast forward until player taxi time. "
             "Player takeoff time: fast forward until player takeoff time. "
             "First contact: fast forward until first contact between blue and red units. "
-            "Manual: manually control fast forward. Must run with --show-sim-speed-controls option to show manual controls."
+            "Manual: manually control fast forward. Show manual controls with --show-sim-speed-controls."
         ),
     )
     combat_resolution_method: CombatResolutionMethod = choices_option(
-        "Resolve combat when fast forwarding by (WIP)",
+        "Resolve combat when fast forwarding by",
         page=MISSION_GENERATOR_PAGE,
         section=GAMEPLAY_SECTION,
         default=CombatResolutionMethod.PAUSE,
         choices={
             "Pause": CombatResolutionMethod.PAUSE,
-            "Resolving combat": CombatResolutionMethod.RESOLVE,
+            "Resolving combat (WIP)": CombatResolutionMethod.RESOLVE,
             "Skipping combat": CombatResolutionMethod.SKIP,
         },
         detail=(
-            "Determines when fast forwarding stops. Options are:\n"
-            f"Pause: pause fast forward and generate mission.\n"
-            f"Resolving combat: auto resolve combat. This method is very rudimentary and will result in large losses.\n"
-            f"Skipping combat: skip combat as if it did not occur and continue to fast forward."
+            "Determines what happens when combat occurs when fast forwarding. "
+            "Pause: pause fast forward and generate mission. Fast forwarding may stop before the condition specified in the above setting. "
+            "Resolving combat (WIP): auto resolve combat. This method is very rudimentary and will result in large losses. "
+            "Skipping combat: skip combat as if it did not occur."
         ),
     )
     supercarrier: bool = boolean_option(
