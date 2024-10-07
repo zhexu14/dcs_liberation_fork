@@ -35,7 +35,7 @@ class FastForwardStopCondition(Enum):
     PLAYER_TAKEOFF = "Player takeoff time"
     PLAYER_TAXI = "Player taxi time"
     PLAYER_STARTUP = "Player startup time"
-    UNTIL_PAUSED = "Fast forward until paused"
+    MANUAL = "Manual fast forward control"
 
 
 @unique
@@ -366,7 +366,7 @@ class Settings:
             "Player taxi time": FastForwardStopCondition.PLAYER_TAXI,
             "Player takeoff time": FastForwardStopCondition.PLAYER_TAKEOFF,
             "First contact": FastForwardStopCondition.FIRST_CONTACT,
-            "Until paused": FastForwardStopCondition.UNTIL_PAUSED,
+            "Manual": FastForwardStopCondition.MANUAL,
         },
         detail=(
             "Determines when fast forwarding stops. Options are: "
@@ -375,7 +375,7 @@ class Settings:
             "Player taxi time: fast forward until player taxi time. "
             "Player takeoff time: fast forward until player takeoff time. "
             "First contact: fast forward until first contact between blue and red units. "
-            "Until paused: fast forward until manually paused. Must run with --show-sim-speed-controls option to show Pause button."
+            "Manual: manually control fast forward. Must run with --show-sim-speed-controls option to show manual controls."
         ),
     )
     combat_resolution_method: CombatResolutionMethod = choices_option(
@@ -385,7 +385,7 @@ class Settings:
         default=CombatResolutionMethod.PAUSE,
         choices={
             "Pause": CombatResolutionMethod.PAUSE,
-            "Resolving combat": CombatResolutionMethod.SKIP,
+            "Resolving combat": CombatResolutionMethod.RESOLVE,
             "Skipping combat": CombatResolutionMethod.SKIP,
         },
         detail=(

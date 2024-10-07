@@ -43,7 +43,13 @@ class AircraftSimulation:
 
         still_active = []
         for combat in self.combats:
-            if combat.on_game_tick(time, duration, self.results, events):
+            if combat.on_game_tick(
+                time,
+                duration,
+                self.results,
+                events,
+                self.game.settings.combat_resolution_method,
+            ):
                 events.end_combat(combat)
             else:
                 still_active.append(combat)
@@ -85,10 +91,7 @@ class AircraftSimulation:
     def _auto_resolve_combat(self) -> bool:
         return (
             self.game.settings.fast_forward_stop_condition
-            not in [
-                FastForwardStopCondition.FIRST_CONTACT,
-                FastForwardStopCondition.DISABLED,
-            ]
+            != FastForwardStopCondition.DISABLED
             and self.game.settings.combat_resolution_method
             != CombatResolutionMethod.PAUSE
         )

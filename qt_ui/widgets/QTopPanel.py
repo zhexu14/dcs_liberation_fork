@@ -249,9 +249,6 @@ class QTopPanel(QFrame):
         mbox.exec_()
         return True
 
-    def check_valid_autoresolve_settings(self) -> bool:
-        return True
-
     def launch_mission(self):
         """Finishes planning and waits for mission completion."""
         if not self.ato_has_clients() and not self.confirm_no_client_launch():
@@ -267,10 +264,10 @@ class QTopPanel(QFrame):
             if not self.confirm_negative_start_time(negative_starts):
                 return
 
-        if not self.check_valid_autoresolve_settings():
-            return
-
-        if self.game.settings.fast_forward_stop_condition != FastForwardStopCondition.DISABLED:
+        if self.game.settings.fast_forward_stop_condition not in [
+            FastForwardStopCondition.DISABLED,
+            FastForwardStopCondition.MANUAL,
+        ]:
             with logged_duration("Simulating to first contact"):
                 self.sim_controller.run_to_first_contact()
         self.sim_controller.generate_miz(
