@@ -16,6 +16,7 @@ from game import Game, persistence
 from game.ato.package import Package
 from game.ato.traveltime import TotEstimator
 from game.profiling import logged_duration
+from game.settings.settings import FastForwardStopCondition
 from game.utils import meters
 from qt_ui.models import GameModel
 from qt_ui.simcontroller import SimController
@@ -249,48 +250,7 @@ class QTopPanel(QFrame):
         return True
 
     def check_valid_autoresolve_settings(self) -> bool:
-        if not self.game.settings.fast_forward_to_first_contact:
-            return True
-
-        if not self.game.settings.auto_resolve_combat:
-            return True
-
-        has_clients = self.ato_has_clients()
-        if (
-            has_clients
-            and self.game.settings.player_mission_interrupts_sim_at is not None
-        ):
-            return True
-
-        if has_clients:
-            message = textwrap.dedent(
-                """\
-                You have enabled settings to fast forward and to auto-resolve combat,
-                but have not selected any interrupt condition. Fast forward will never
-                stop with your current settings. To use auto- resolve, you must choose a
-                "Player missions interrupt fast forward" setting other than "Never".
-                """
-            )
-        else:
-            message = textwrap.dedent(
-                """\
-                You have enabled settings to fast forward and to auto-resolve combat,
-                but have no players. Fast forward will never stop with your current
-                settings. Auto-resolve and fast forward cannot be used without player
-                flights and a "Player missions interrupt fast forward" setting other
-                than "Never".
-                """
-            )
-
-        mbox = QMessageBox(
-            QMessageBox.Icon.Critical,
-            "Incompatible fast-forward settings",
-            message,
-            parent=self,
-        )
-        mbox.setEscapeButton(mbox.addButton(QMessageBox.StandardButton.Close))
-        mbox.exec()
-        return False
+        return True
 
     def launch_mission(self):
         """Finishes planning and waits for mission completion."""
@@ -310,7 +270,7 @@ class QTopPanel(QFrame):
         if not self.check_valid_autoresolve_settings():
             return
 
-        if self.game.settings.fast_forward_to_first_contact:
+        if self.game.settings.fast_forward_stop_condition == FastForwardStopCondition.FIRST_CONTACT:
             with logged_duration("Simulating to first contact"):
                 self.sim_controller.run_to_first_contact()
         self.sim_controller.generate_miz(
