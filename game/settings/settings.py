@@ -28,6 +28,23 @@ class AutoAtoBehavior(Enum):
     Prefer = "Prefer player pilots"
 
 
+@unique
+class FastForwardStopCondition(Enum):
+    DISABLED = "Fast forward disabled"
+    FIRST_CONTACT = "First contact"
+    PLAYER_TAKEOFF = "Player takeoff time"
+    PLAYER_TAXI = "Player taxi time"
+    PLAYER_STARTUP = "Player startup time"
+    MANUAL = "Manual fast forward control"
+
+
+@unique
+class CombatResolutionMethod(Enum):
+    PAUSE = "Pause simulation"
+    RESOLVE = "Resolve combat"
+    SKIP = "Skip combat"
+
+
 DIFFICULTY_PAGE = "Difficulty"
 
 AI_DIFFICULTY_SECTION = "AI Difficulty"
@@ -293,7 +310,7 @@ class Settings:
         "Tactical commander",
         page=MISSION_GENERATOR_PAGE,
         section=COMMANDERS_SECTION,
-        default=1,
+        default=0,
         min=0,
         max=100,
     )
@@ -309,7 +326,7 @@ class Settings:
         "Observer",
         page=MISSION_GENERATOR_PAGE,
         section=COMMANDERS_SECTION,
-        default=1,
+        default=0,
         min=0,
         max=100,
     )
@@ -327,19 +344,6 @@ class Settings:
             "run out of fuel when players would not."
         ),
     )
-    fast_forward_to_first_contact: bool = boolean_option(
-        "Fast forward mission to first contact (WIP)",
-        page=MISSION_GENERATOR_PAGE,
-        section=GAMEPLAY_SECTION,
-        default=False,
-        detail=(
-            "If enabled, the mission will be generated at the point of first contact. "
-            "If you enable this option, you will not be able to create new flights "
-            'after pressing "TAKE OFF". Doing so will create an error the next time '
-            'you press "TAKE OFF". Save your game first if you want to make '
-            "modifications."
-        ),
-    )
     reload_pre_sim_checkpoint_on_abort: bool = boolean_option(
         "Reset mission to pre-take off conditions on abort",
         page=MISSION_GENERATOR_PAGE,
@@ -351,37 +355,44 @@ class Settings:
             "your game after aborting take off."
         ),
     )
-    player_mission_interrupts_sim_at: Optional[StartType] = choices_option(
-        "Player missions interrupt fast forward",
+    fast_forward_stop_condition: FastForwardStopCondition = choices_option(
+        "Fast forward until",
         page=MISSION_GENERATOR_PAGE,
         section=GAMEPLAY_SECTION,
-        default=None,
+        default=FastForwardStopCondition.DISABLED,
         choices={
-            "Never": None,
-            "At startup time": StartType.COLD,
-            "At taxi time": StartType.WARM,
-            "At takeoff time": StartType.RUNWAY,
+            "No fast forward": FastForwardStopCondition.DISABLED,
+            "Player startup time": FastForwardStopCondition.PLAYER_STARTUP,
+            "Player taxi time": FastForwardStopCondition.PLAYER_TAXI,
+            "Player takeoff time": FastForwardStopCondition.PLAYER_TAKEOFF,
+            "First contact": FastForwardStopCondition.FIRST_CONTACT,
+            "Manual": FastForwardStopCondition.MANUAL,
         },
         detail=(
-            "Determines what player mission states will interrupt fast-forwarding to "
-            "first contact, if enabled. If never is selected player missions will not "
-            "impact simulation and player missions may be generated mid-flight. The "
-            "other options will cause the mission to be generated as soon as a player "
-            "mission reaches the set state or at first contact, whichever comes first."
+            "Determines when fast forwarding stops: "
+            "No fast forward: disables fast forward. "
+            "Player startup time: fast forward until player startup time. "
+            "Player taxi time: fast forward until player taxi time. "
+            "Player takeoff time: fast forward until player takeoff time. "
+            "First contact: fast forward until first contact between blue and red units. "
+            "Manual: manually control fast forward. Show manual controls with --show-sim-speed-controls."
         ),
     )
-    auto_resolve_combat: bool = boolean_option(
-        "Auto-resolve combat during fast-forward (WIP)",
+    combat_resolution_method: CombatResolutionMethod = choices_option(
+        "Resolve combat when fast forwarding by",
         page=MISSION_GENERATOR_PAGE,
         section=GAMEPLAY_SECTION,
-        default=False,
+        default=CombatResolutionMethod.PAUSE,
+        choices={
+            "Pause": CombatResolutionMethod.PAUSE,
+            "Resolving combat (WIP)": CombatResolutionMethod.RESOLVE,
+            "Skipping combat": CombatResolutionMethod.SKIP,
+        },
         detail=(
-            'Requires a "Player missions interrupt fast forward" setting other than '
-            '"Never" If enabled, aircraft entering combat during fast forward will have'
-            "their combat auto-resolved after a period of time. This allows the "
-            "simulation to advance further into the mission before requiring mission "
-            "generation, but simulation is currently very rudimentary so may result in "
-            "huge losses."
+            "Determines what happens when combat occurs when fast forwarding. "
+            "Pause: pause fast forward and generate mission. Fast forwarding may stop before the condition specified in the above setting. "
+            "Resolving combat (WIP): auto resolve combat. This method is very rudimentary and will result in large losses. "
+            "Skipping combat: skip combat as if it did not occur."
         ),
     )
     supercarrier: bool = boolean_option(
