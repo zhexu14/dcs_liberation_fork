@@ -14,3 +14,5 @@ clsids:
   - "{JAS39_AIM-9L}"
   - "{Rb_74}"
   - "{Robot74}"
+  - "{LAU-7_AIM-9L_Left}"
+  - "{LAU-7_AIM-9L_Right}"

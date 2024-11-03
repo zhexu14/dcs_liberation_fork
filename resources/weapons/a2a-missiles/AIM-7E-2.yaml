@@ -1,0 +1,6 @@
+name: AIM-7E-2
+year: 1969
+fallback: AIM-7E
+clsids:
+  - "{AIM-7E-2}"
+  - "{HB_F4E_AIM-7E-2}"
