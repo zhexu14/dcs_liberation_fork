@@ -12,3 +12,6 @@ clsids:
   - "{LAU-7 - AIM-9M}"
   - "{AIM-9M-ON-ADAPTER}"
   - "{JAS39_AIM-9M}"
+  - "{AIM-9M}"
+  - "{LAU-7_AIM-9M_Left}"
+  - "{LAU-7_AIM-9M_Right}"

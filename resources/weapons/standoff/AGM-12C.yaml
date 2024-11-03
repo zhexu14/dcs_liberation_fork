@@ -1,0 +1,7 @@
+name: AGM-12C
+# https://wiki.warthunder.com/AGM-12C_Bullpup
+year: 1965
+fallback: AGM-12B
+clsids:
+  - "{AGM_12C}"
+  - "{AGM_12C_SWA}"

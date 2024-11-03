@@ -12,9 +12,10 @@ Saves from 11.x are not compatible with 12.0.0.
 
 ## Fixes
 
-* **[Mission Generation]** Fixed aircraft not spawning correctly on CVNs, LHAs and FARPs.
+* **[Data]** Added/updated weapons data for F4E weapons such as AIM-7, AIM-9, AGM-12, AGM-45 and AGM-65.
 * **[Campaign]** Do not allow aircraft from a captured control point to retreat if the captured control point has a damaged runway.
 * **[Campaign]** Do not allow ground units to be transferred to LHAs, CVNs or off map spawns.
+* **[Mission Generation]** Fixed aircraft not spawning correctly on CVNs, LHAs and FARPs.
 
 # 11.1.1
 

@@ -3,3 +3,6 @@ type: ARM
 year: 1965
 clsids:
   - "{AGM_45A}"
+  - "{LAU118_AGM_45A}"
+  - "{LAU_34_AGM_45A_SWA}"
+  - "{LAU_34_AGM_45A}"

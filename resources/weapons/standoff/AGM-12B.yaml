@@ -1,0 +1,7 @@
+name: AGM-12B
+# https://en.wikipedia.org/wiki/AGM-12_Bullpup
+year: 1964
+fallback: AGM-12A
+clsids:
+  - "{AGM_12B}"
+  - "{AGM_12B_SWA}"
