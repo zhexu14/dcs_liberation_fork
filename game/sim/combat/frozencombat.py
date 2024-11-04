@@ -7,6 +7,7 @@ from datetime import datetime, timedelta
 from typing import TYPE_CHECKING
 
 from game.ato.flightstate import InCombat, InFlight
+from game.settings.settings import CombatResolutionMethod
 from .. import GameUpdateEvents
 
 if TYPE_CHECKING:
@@ -26,10 +27,11 @@ class FrozenCombat(ABC):
         duration: timedelta,
         results: SimulationResults,
         events: GameUpdateEvents,
+        resolution_method: CombatResolutionMethod,
     ) -> bool:
         self.elapsed_time += duration
         if self.elapsed_time >= self.freeze_duration:
-            self.resolve(results, events, time, self.elapsed_time)
+            self.resolve(results, events, time, self.elapsed_time, resolution_method)
             return True
         return False
 
@@ -40,20 +42,17 @@ class FrozenCombat(ABC):
         events: GameUpdateEvents,
         time: datetime,
         elapsed_time: timedelta,
-    ) -> None:
-        ...
+        resolution_method: CombatResolutionMethod,
+    ) -> None: ...
 
     @abstractmethod
-    def because(self) -> str:
-        ...
+    def because(self) -> str: ...
 
     @abstractmethod
-    def describe(self) -> str:
-        ...
+    def describe(self) -> str: ...
 
     @abstractmethod
-    def iter_flights(self) -> Iterator[Flight]:
-        ...
+    def iter_flights(self) -> Iterator[Flight]: ...
 
     def update_flight_states(self) -> None:
         for flight in self.iter_flights():

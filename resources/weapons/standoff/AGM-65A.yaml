@@ -3,3 +3,9 @@ year: 1972
 fallback: AGM-62 Walleye II
 clsids:
   - "LAU_117_AGM_65A"
+  - "{HB_F4E_AGM-65A_LAU117}"
+  - "{HB_F4E_AGM-65A_LAU117_SWA}"
+  - "{HB_F4EAGM-65A_LAU88_2x_Right}"
+  - "{HB_F4EAGM-65A_LAU88_2x_Left}"
+  - "{HB_F4EAGM-65A_LAU88_3x_Right}"
+  - "{HB_F4EAGM-65A_LAU88_3x_Left}"

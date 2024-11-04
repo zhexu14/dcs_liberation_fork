@@ -4,11 +4,18 @@ Saves from 11.x are not compatible with 12.0.0.
 
 ## Features/Improvements
 
+* **[Engine]** Support for DCS 2.9.9.2280.
+* **[Campaign]** Flights are assigned different callsigns appropriate to the faction.
 * **[Campaign]** Removed deprecated settings for generating persistent and invulnerable AWACs and tankers.
+* **[Mission Generation]** Added option to skip combat when fast forwarding, which progresses fast forward as if the combat did not occur. Simplified fast forward settings by consolidating "Fast forward mission to first contact" and "Player missions interrupt fast forward" into a single setting and expanding options for "Auto-resolve combat during fast-forward (WIP)".
 * **[Mods]** F/A-18 E/F/G Super Hornet mod version updated to 2.3.
 
 ## Fixes
 
+* **[Data]** Added/updated weapons data for F4E weapons such as AIM-7, AIM-9, AGM-12, AGM-45 and AGM-65.
+* **[Campaign]** Do not allow aircraft from a captured control point to retreat if the captured control point has a damaged runway.
+* **[Campaign]** Do not allow ground units to be transferred to LHAs, CVNs or off map spawns.
+* **[Mission Generation]** Fixed aircraft not spawning correctly on CVNs, LHAs and FARPs.
 
 # 11.1.1
 

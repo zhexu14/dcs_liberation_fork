@@ -8,7 +8,7 @@ from enum import Enum, auto
 from typing import Dict, Iterator, List, Optional, Set, Tuple
 
 from .conflicttheater import ConflictTheater
-from .controlpoint import ControlPoint
+from .controlpoint import ControlPoint, ControlPointType
 
 
 class NoPathError(RuntimeError):
@@ -47,9 +47,9 @@ class TransitConnection(Enum):
 
 class TransitNetwork:
     def __init__(self) -> None:
-        self.nodes: Dict[
-            ControlPoint, Dict[ControlPoint, TransitConnection]
-        ] = defaultdict(dict)
+        self.nodes: Dict[ControlPoint, Dict[ControlPoint, TransitConnection]] = (
+            defaultdict(dict)
+        )
 
     def has_destinations(self, control_point: ControlPoint) -> bool:
         return bool(self.nodes[control_point])
@@ -160,7 +160,14 @@ class TransitNetworkBuilder:
         self.airports: Set[ControlPoint] = {
             cp
             for cp in self.control_points
-            if cp.is_friendly(for_player) and cp.runway_is_operational()
+            if cp.is_friendly(for_player)
+            and cp.runway_is_operational()
+            and cp.cptype
+            not in [
+                ControlPointType.LHA_GROUP,
+                ControlPointType.AIRCRAFT_CARRIER_GROUP,
+                ControlPointType.OFF_MAP,
+            ]  # TransitNetwork is for ground units, so do not consider LHAs, CVNs or off map spawns.
         }
 
     def build(self) -> TransitNetwork:
