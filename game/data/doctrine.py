@@ -2,11 +2,11 @@ from __future__ import annotations
 
 from pathlib import Path
 import yaml
-from typing import Any, ClassVar
+from typing import Any, ClassVar, Optional
 
 from dataclasses import dataclass
 from datetime import timedelta
-
+from dcs.task import OptAAMissileAttackRange
 from game.data.units import UnitClass
 from game.utils import Distance, feet, nautical_miles
 
@@ -116,6 +116,28 @@ class Cap:
 
 
 @dataclass(frozen=True)
+class Tactics:
+    #: Aircraft use countermeasures (chaff, flares)
+    use_countermeasures: bool
+
+    #: Air-to-air missile attack range options
+    air_to_air_missile_attack_range: Optional[OptAAMissileAttackRange.Values]
+
+    #: Air defence units evade ARMs
+    air_defence_evades_anti_radiation_missiles: bool
+
+    @staticmethod
+    def from_dict(data: dict[str, Any]) -> Tactics:
+        return Tactics(
+            use_countermeasures=data.get("use_countermeasures", True),
+            air_to_air_missile_attack_range=None,
+            air_defence_evades_anti_radiation_missiles=data.get(
+                "air_defence_evades_anti_radiation_missiles", False
+            ),
+        )
+
+
+@dataclass(frozen=True)
 class Doctrine:
     #: Name of the doctrine, used to assign a doctrine in a faction.
     name: str
@@ -158,6 +180,9 @@ class Doctrine:
 
     #: Doctrine for Fighter Sweep missions.
     sweep: Sweep
+
+    #: Tactics options
+    tactics: Tactics
 
     _by_name: ClassVar[dict[str, Doctrine]] = {}
     _loaded: ClassVar[bool] = False
@@ -219,6 +244,7 @@ class Doctrine:
                     cas=Cas.from_dict(data["cas"]),
                     cap=Cap.from_dict(data["cap"]),
                     sweep=Sweep.from_dict(data["sweep"]),
+                    tactics=Tactics.from_dict(data.get("tactics", {})),
                 )
             )
         cls._loaded = True
