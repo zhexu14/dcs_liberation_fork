@@ -104,5 +104,6 @@ class PackageBuilder:
         """Returns any planned flights to the inventory."""
         flights = list(self.package.flights)
         for flight in flights:
-            self.callsign_generator.release_callsign(flight.callsign)
+            if flight.callsign is not None:
+                self.callsign_generator.release_callsign(flight.callsign)
             self.package.remove_flight(flight)
