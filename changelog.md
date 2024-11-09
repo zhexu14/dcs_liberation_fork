@@ -7,6 +7,7 @@ Saves from 11.x are not compatible with 12.0.0.
 * **[Engine]** Support for DCS 2.9.9.2280.
 * **[Campaign]** Flights are assigned different callsigns appropriate to the faction.
 * **[Campaign]** Removed deprecated settings for generating persistent and invulnerable AWACs and tankers.
+* **[Data]** Added ability to restrict weapons usage for a faction to a different year from the nominal weapon introduction year. Updated faction data to restrict more advanced missiles from Soviet client states during the cold war. Updated Egypt 2000 faction to restrict AIM-120 usage.
 * **[Mission Generation]** Added option to skip combat when fast forwarding, which progresses fast forward as if the combat did not occur. Simplified fast forward settings by consolidating "Fast forward mission to first contact" and "Player missions interrupt fast forward" into a single setting and expanding options for "Auto-resolve combat during fast-forward (WIP)".
 * **[Mods]** F/A-18 E/F/G Super Hornet mod version updated to 2.3.
 

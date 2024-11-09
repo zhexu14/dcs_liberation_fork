@@ -10,6 +10,8 @@ from dcs.unittype import FlyingType
 
 from game.data.weapons import Pylon, Weapon, WeaponType
 from game.dcs.aircrafttype import AircraftType
+from game.factions.faction import Faction
+
 from .flighttype import FlightType
 
 if TYPE_CHECKING:
@@ -52,6 +54,7 @@ class Loadout:
         weapon: Weapon,
         pylon: Pylon,
         date: datetime.date,
+        faction: Faction,
         skip_types: Optional[Iterable[WeaponType]] = None,
     ) -> Optional[Weapon]:
         if skip_types is None:
@@ -59,14 +62,16 @@ class Loadout:
         for fallback in weapon.fallbacks:
             if not pylon.can_equip(fallback):
                 continue
-            if not fallback.available_on(date):
+            if not fallback.available_on(date, faction):
                 continue
             if fallback.weapon_group.type in skip_types:
                 continue
             return fallback
         return None
 
-    def degrade_for_date(self, unit_type: AircraftType, date: datetime.date) -> Loadout:
+    def degrade_for_date(
+        self, unit_type: AircraftType, date: datetime.date, faction: Faction
+    ) -> Loadout:
         if self.date is not None and self.date <= date:
             return Loadout(self.name, self.pylons, self.date, self.is_custom)
 
@@ -75,9 +80,9 @@ class Loadout:
             if weapon is None:
                 del new_pylons[pylon_number]
                 continue
-            if not weapon.available_on(date):
+            if not weapon.available_on(date, faction):
                 pylon = Pylon.for_aircraft(unit_type, pylon_number)
-                fallback = self._fallback_for(weapon, pylon, date)
+                fallback = self._fallback_for(weapon, pylon, date, faction)
                 if fallback is None:
                     del new_pylons[pylon_number]
                 else:
@@ -89,11 +94,11 @@ class Loadout:
         # If the loadout was chosen explicitly by the user, assume they know what
         # they're doing. They may be coordinating buddy-lase.
         if not loadout.is_custom:
-            loadout.replace_lgbs_if_no_tgp(unit_type, date)
+            loadout.replace_lgbs_if_no_tgp(unit_type, date, faction)
         return loadout
 
     def replace_lgbs_if_no_tgp(
-        self, unit_type: AircraftType, date: datetime.date
+        self, unit_type: AircraftType, date: datetime.date, faction: Faction
     ) -> None:
         if self.has_weapon_of_type(WeaponType.TGP):
             return
@@ -106,7 +111,7 @@ class Loadout:
             if weapon is not None and weapon.weapon_group.type is WeaponType.LGB:
                 pylon = Pylon.for_aircraft(unit_type, pylon_number)
                 fallback = self._fallback_for(
-                    weapon, pylon, date, skip_types={WeaponType.LGB}
+                    weapon, pylon, date, faction, skip_types={WeaponType.LGB}
                 )
                 if fallback is None:
                     del new_pylons[pylon_number]
