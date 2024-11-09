@@ -3,6 +3,7 @@ from __future__ import annotations
 import itertools
 import logging
 from dataclasses import dataclass, field
+import datetime
 from functools import cached_property
 from typing import Any, Dict, Iterator, List, Optional, TYPE_CHECKING, Type
 
@@ -117,6 +118,10 @@ class Faction:
     #: Note that this option cannot be set per-side. If either faction needs it,
     #: both will use it.
     unrestricted_satnav: bool = False
+
+    #: Overrides default weapons introduction years for faction. Maps names of
+    #: weapons groups to their introduction years.
+    weapons_introduction_year_overrides: Dict[str, int] = field(default_factory=dict)
 
     def has_access_to_dcs_type(self, unit_type: Type[DcsUnitType]) -> bool:
         # Vehicle and Ship Units
@@ -261,6 +266,10 @@ class Faction:
             faction.liveries_overrides[aircraft] = [s.lower() for s in livery]
 
         faction.unrestricted_satnav = json.get("unrestricted_satnav", False)
+
+        faction.weapons_introduction_year_overrides = json.get(
+            "weapons_introduction_year_overrides", {}
+        )
 
         return faction
 

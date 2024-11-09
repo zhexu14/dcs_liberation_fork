@@ -43,3 +43,7 @@ air_defense_units:
   - ZSU-23-4 Shilka
 has_jtac: "false"
 doctrine: "coldwar"
+weapons_introduction_year_overrides:
+    R-3R - AAM, radar guided: 1980
+    R-60 x 2: 1980
+    R-60: 1980
