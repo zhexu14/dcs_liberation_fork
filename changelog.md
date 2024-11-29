@@ -1,3 +1,16 @@
+# 12.1.0
+
+Saves from 12.x are not compatible with 12.1.0.
+
+## Features/Improvements
+
+
+
+## Fixes
+
+* **[Data]** Added/updated CBU weapons data.
+* **[Mission Generation]** Fixed crash when using factions that have Eastern callsign conventions.
+
 # 12.0.0
 
 Saves from 11.x are not compatible with 12.0.0.
