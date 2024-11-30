@@ -9,6 +9,7 @@ Saves from 12.x are not compatible with 12.1.0.
 ## Fixes
 
 * **[Data]** Added/updated CBU weapons data.
+* **[Data]** Added Strike mission type for KA-50 (all playable variants).
 * **[Mission Generation]** Fixed crash when using factions that have Eastern callsign conventions.
 
 # 12.0.0
