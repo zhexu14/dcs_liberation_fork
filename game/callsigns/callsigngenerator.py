@@ -230,19 +230,24 @@ class EasternFlightCallsignGenerator:
 class FlightCallsignGenerator:
 
     def __init__(self, country: str):
-        use_western_callsigns = countries_by_name[country]().use_western_callsigns
-        if use_western_callsigns:
-            self._generator: (
-                WesternFlightCallsignGenerator | EasternFlightCallsignGenerator
-            ) = WesternFlightCallsignGenerator(country)
+        self._use_western_callsigns = countries_by_name[country]().use_western_callsigns
+        self._generators: dict[
+            bool, WesternFlightCallsignGenerator | EasternFlightCallsignGenerator
+        ] = {}
+        if self._use_western_callsigns:
+            self._generators[self._use_western_callsigns] = (
+                WesternFlightCallsignGenerator(country)
+            )
         else:
-            self._generator = EasternFlightCallsignGenerator()
+            self._generators[self._use_western_callsigns] = (
+                EasternFlightCallsignGenerator()
+            )
 
     def reset(self) -> None:
-        self._generator.reset()
+        self._generators[self._use_western_callsigns].reset()
 
     def alloc_callsign(self, flight: Flight) -> Callsign:
-        return self._generator.alloc_callsign(flight)
+        return self._generators[self._use_western_callsigns].alloc_callsign(flight)
 
     def release_callsign(self, callsign: Callsign) -> None:
-        self._generator.release_callsign(callsign)
+        self._generators[self._use_western_callsigns].release_callsign(callsign)
