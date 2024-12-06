@@ -1,10 +1,11 @@
 # 12.1.0
 
-Saves from 12.x are not compatible with 12.1.0.
+Saves from 12.x are compatible with 12.1.0.
 
 ## Features/Improvements
 
-* **[Engine]** Support for CH-47 Chinook.
+* **[Engine]** Support for DCS 2.9.10.3948.
+* **[Data]** Support for CH-47 Chinook.
 
 ## Fixes
 
